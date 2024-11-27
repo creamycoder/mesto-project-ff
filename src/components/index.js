@@ -1,6 +1,7 @@
 import { renderCards, createCard, deleteCard, likeCard } from "./card.js";
 import { openModal, closeModal, fillEditModal, saveEditModal, saveNewCard, openImage } from './modal.js';
 import { popupNewCard, popupEditProfile, profile, pageContent, formEditProfile, formAddCard, popupImage } from './config.js'
+import '../pages/index.css';
 
 renderCards(createCard, deleteCard, likeCard, openImage);
 
