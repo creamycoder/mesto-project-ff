@@ -1,6 +1,4 @@
-import { initialCards } from "./cards.js";
-import { placesList, cardTemplate } from "./config.js";
-import { openImage } from "./modal.js";
+import { cardTemplate } from "./config.js";
 
 export function deleteCard(cardElement) {
     cardElement.remove();
@@ -10,34 +8,30 @@ export function likeCard(likeButton) {
     likeButton.classList.toggle('card__like-button_is-active');
 }
 
-export function createCard(card, deleteCard, likeCard, openImage) {
+export function createCard(card, handlers) {
     const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
     const deleteButton = cardElement.querySelector('.card__delete-button');
     const likeButton = cardElement.querySelector('.card__like-button');
-    const cardImage = cardElement.querySelector('.card__image'); 
+    const cardImage = cardElement.querySelector('.card__image');
+    const cardTitle = cardElement.querySelector('.card__title'); 
 
-    cardElement.querySelector('.card__image').src = card.link;
-    cardElement.querySelector('.card__title').textContent = card.name;
-    cardElement.querySelector('.card__image').alt = card.name;
+    cardImage.src = card.link;
+    cardImage.alt = card.name;
+    cardTitle.textContent = card.name;
 
     deleteButton.addEventListener('click', function() {
-        deleteCard(cardElement);
+       handlers.delete(cardElement);
     });
 
     likeButton.addEventListener('click', function() {
-        likeCard(likeButton);
+        handlers.like(likeButton);
     });
 
 
     cardImage.addEventListener('click', function() {
-        openImage(card.link, card.name);
+        handlers.open(card.link, card.name);
     });
 
     return cardElement;
 }
 
-export function renderCards(createCard, deleteCard, likeCard, openImage) {
-    initialCards.forEach(function (card) {
-        placesList.append(createCard(card, deleteCard, likeCard, openImage));
-    });
-}

@@ -1,51 +1,85 @@
-import { renderCards, createCard, deleteCard, likeCard } from "./card.js";
-import { openModal, closeModal, fillEditModal, saveEditModal, saveNewCard, openImage } from './modal.js';
-import { popupNewCard, popupEditProfile, profile, pageContent, formEditProfile, formAddCard, popupImage } from './config.js'
+import { createCard, deleteCard, likeCard } from "./card.js";
+import { initialCards } from "./cards.js";
+import { closePopup, openPopup } from './modal.js';
+import { placesList, popupNewCard, popupEditProfile, popupOpenImage, profileAddButton, profileEditButton, 
+    popupImage, popupCaption, editNameInput, editDescriptionInput, currentProfileName, currentProfileDescription, 
+    formEditProfile, formAddCard, addNameInput, addLinkInput } from './config.js'
 import '../pages/index.css';
 
-renderCards(createCard, deleteCard, likeCard, openImage);
+const cardHandlers = {
+    create: createCard,
+    delete: deleteCard,
+    like: likeCard,
+    open: openImage,
+};
 
-profile.addEventListener('click', function(evt) {
-    if (evt.target.classList.contains('profile__add-button')) {
-        openModal(popupNewCard);
-    } else if (evt.target.classList.contains('profile__edit-button')) {
-        fillEditModal(popupEditProfile);
-        openModal(popupEditProfile);
-    }
+const popups = document.querySelectorAll('.popup');
+
+export function renderCards(initialCards, cardHandlers) {
+    initialCards.forEach(function (card) {
+        placesList.append(cardHandlers.create(card, { delete: cardHandlers.delete, like : cardHandlers.like, open: cardHandlers.open }));
+    });
+}
+
+export function openImage(link, alt) {
+    popupImage.src = link;
+    popupImage.alt = alt;
+    popupCaption.textContent = alt;
+
+    openPopup(popupOpenImage);
+}
+
+export function fillEditPopup() {
+    editNameInput.value = currentProfileName.textContent;
+    editDescriptionInput.value = currentProfileDescription.textContent;
+}
+
+export function handleProfileFormSubmit(evt) {
+    evt.preventDefault();
+
+    currentProfileName.textContent = editNameInput.value;
+    currentProfileDescription.textContent = editDescriptionInput.value;
+
+    closePopup(popupEditProfile);
+}
+
+export function saveNewCard(evt) {
+    evt.preventDefault();
+
+
+    const newCard = {
+        name: addNameInput.value,
+        link: addLinkInput.value,
+    };;
+
+    initialCards.unshift(newCard);
+    const cardElement = cardHandlers.create(newCard, { delete: cardHandlers.delete, like : cardHandlers.like, open: cardHandlers.open } );
+    placesList.prepend(cardElement);
+    closePopup(popupNewCard);
+    formAddCard.reset();
+}
+
+renderCards(initialCards, cardHandlers);
+
+profileAddButton.addEventListener('click', function() {
+    openPopup(popupNewCard);
 });
 
-pageContent.addEventListener('click', function(evt) {
-    if (evt.target.classList.contains('popup__close') || !evt.target.closest('.popup__content')) {
-        if (evt.target.closest('.popup_type_new-card')) {
-            closeModal(popupNewCard);  
-        } else if (evt.target.closest('.popup_type_edit')) {
-            closeModal(popupEditProfile); 
-        } else if (evt.target.closest('.popup_type_image')) {
-            closeModal(popupImage);
+profileEditButton.addEventListener('click', function(evt) {
+    openPopup(popupEditProfile);
+    fillEditPopup();
+});
+
+popups.forEach(function(popup) {
+    popup.addEventListener('mousedown', function(evt) {
+        if (evt.target.classList.contains('popup__close') || !evt.target.closest('.popup__content')) {
+            closePopup(popup);
         }
-    }
+    });
 });
 
-document.addEventListener('keyup', function(evt) {
-    if (evt.key === 'Escape') {
-        if (popupNewCard.classList.contains('popup_is-opened')) {
-            closeModal(popupNewCard);
-        } else if (popupEditProfile.classList.contains('popup_is-opened')) {
-            closeModal(popupEditProfile);
-        } else if (popupImage.classList.contains('popup_is-opened')) {
-            closeModal(popupImage);
-        }
-    }
-});
-
-formEditProfile.addEventListener('submit', function(evt) {
-    saveEditModal(evt);
-});
-
-formAddCard.addEventListener('submit', function(evt) {
-    saveNewCard(evt);
-});
-
+formEditProfile.addEventListener('submit', handleProfileFormSubmit);
+formAddCard.addEventListener('submit', saveNewCard);
 
 
 

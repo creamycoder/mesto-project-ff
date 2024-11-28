@@ -1,18 +1,19 @@
 export const content = document.querySelector('.content');
-
 export const placesList = content.querySelector('.places__list');
 export const cardTemplate = document.querySelector('#card-template').content;
-
 export const popupNewCard = document.querySelector('.popup_type_new-card');
 export const popupEditProfile = document.querySelector('.popup_type_edit');
-export const popupImage = document.querySelector('.popup_type_image');
-
-export const profile = content.querySelector('.profile');
-export const pageContent = document.querySelector('.page__content');
-
+export const popupOpenImage = document.querySelector('.popup_type_image');
+export const profileAddButton = document.querySelector('.profile__add-button');
+export const profileEditButton = document.querySelector('.profile__edit-button')
+export const popupImage = popupOpenImage.querySelector('.popup__image');
+export const popupCaption = popupOpenImage.querySelector('.popup__caption');
+export const editNameInput = popupEditProfile.querySelector('.popup__input_type_name');
+export const editDescriptionInput = popupEditProfile.querySelector('.popup__input_type_description');
 export const currentProfileName = content.querySelector('.profile__title');
 export const currentProfileDescription = content.querySelector('.profile__description');
-
 export const formEditProfile = popupEditProfile.querySelector('.popup__form');
 export const formAddCard = popupNewCard.querySelector('.popup__form');
+export const addNameInput = popupNewCard.querySelector('.popup__input_type_card-name');
+export const addLinkInput = popupNewCard.querySelector('.popup__input_type_url');
 
