@@ -6,6 +6,8 @@ import { placesList, popupNewCard, popupEditProfile, popupOpenImage, profileAddB
     formEditProfile, formAddCard, addNameInput, addLinkInput } from './config.js'
 import '../pages/index.css';
 
+import { clearValidation, enableValidation } from "./validation.js";
+
 const cardHandlers = {
     create: createCard,
     delete: deleteCard,
@@ -14,6 +16,15 @@ const cardHandlers = {
 };
 
 const popups = document.querySelectorAll('.popup');
+
+enableValidation({
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible'
+});
 
 export function renderCards(initialCards, cardHandlers) {
     initialCards.forEach(function (card) {
@@ -74,17 +85,20 @@ popups.forEach(function(popup) {
     popup.addEventListener('mousedown', function(evt) {
         if (evt.target.classList.contains('popup__close') || !evt.target.closest('.popup__content')) {
             closePopup(popup);
+            if (popup != popupOpenImage) {
+                clearValidation(
+                    popup, {
+                    inputSelector: '.popup__input',
+                    submitButtonSelector: '.popup__button',
+                    inactiveButtonClass: 'popup__button_disabled'
+                });
+            }
         }
     });
 });
 
 formEditProfile.addEventListener('submit', handleProfileFormSubmit);
 formAddCard.addEventListener('submit', saveNewCard);
-
-
-
-
- 
 
 
 

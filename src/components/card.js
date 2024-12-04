@@ -2,6 +2,7 @@ import { cardTemplate } from "./config.js";
 
 export function deleteCard(cardElement) {
     cardElement.remove();
+    console.log('удалили');
 }
 
 export function likeCard(likeButton) {
