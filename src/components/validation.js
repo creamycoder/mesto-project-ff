@@ -10,6 +10,7 @@ const hideInputError = (formElement, inputElement, settings) => {
     inputElement.classList.remove(settings.inputErrorClass);
     errorElement.classList.remove(settings.errorClass);
     errorElement.textContent = '';
+    inputElement.setCustomValidity("");
 };
 
 const checkInputValidity = (formElement, inputElement, settings) => {

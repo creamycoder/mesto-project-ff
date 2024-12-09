@@ -135,6 +135,12 @@ export function saveNewCard(evt) {
         })
         .finally(() => {
             popupAddButton.textContent = 'Сохранить';
+            clearValidation(
+                popupNewCard, {
+                inputSelector: '.popup__input',
+                submitButtonSelector: '.popup__button',
+                inactiveButtonClass: 'popup__button_disabled'
+            });
         })
 }
 
