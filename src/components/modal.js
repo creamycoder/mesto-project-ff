@@ -19,9 +19,7 @@ export function closePopup(popup) {
 export function handleEscape(evt) {
     if (evt.key === 'Escape') {
         const openedPopup = document.querySelector('.popup_is-opened');
-        console.log(openedPopup);
         if (openedPopup) {
-            console.log(openedPopup);
             closePopup(openedPopup);
         }
     }

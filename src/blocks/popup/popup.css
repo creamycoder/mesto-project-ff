@@ -10,6 +10,7 @@
 @import url('./__input/popup__input-error.css');
 @import url('./__button/popup__button_inactive.css');
 @import url('./__form/popup__form_error.css');
+@import url('./popup_avatar.css');
 
 .popup {
   font-family: 'Inter', Arial, sans-serif;

@@ -9,3 +9,7 @@
     margin-block-start: 5px;
     min-height: 28px;
 }
+
+.popup__input-error:last-of-type {
+    margin-bottom: 0;
+}
